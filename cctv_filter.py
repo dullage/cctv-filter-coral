@@ -5,7 +5,6 @@ import sys
 import time
 from typing import List
 
-from deepstack_sdk import Detection, ServerConfig
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
@@ -45,7 +44,6 @@ class CCTVFilter(FileSystemEventHandler):
     def __init__(
         self,
         cameras: List[ReolinkCamera],
-        deepstack_url: str,
         incoming_path: str,
         accepted_path: str,
         latest_detections_path: str,
@@ -53,7 +51,6 @@ class CCTVFilter(FileSystemEventHandler):
         draw_roi: bool = False,
     ):
         self.cameras = cameras
-        self.deepstack = Detection(ServerConfig(deepstack_url))
         self.incoming_path = incoming_path
         self.accepted_path = accepted_path
         self.latest_detections_path = latest_detections_path
@@ -86,17 +83,15 @@ class CCTVFilter(FileSystemEventHandler):
         (
             video_is_accepted,
             accepted_frame,
-            deepstack_response,
-        ) = video.is_accepted(
-            self.deepstack, camera.min_confidence, camera.roi
-        )
+            detection,
+        ) = video.is_accepted(camera.min_confidence, camera.roi)
 
         if video_is_accepted:
             video.move(self.accepted_path)
             image_ext = "jpg"
             video.save_images_from_frame(
                 accepted_frame,
-                deepstack_response,
+                detection,
                 [
                     os.path.join(
                         self.accepted_path, video.friendly_filename(image_ext)
@@ -125,7 +120,8 @@ class CCTVFilter(FileSystemEventHandler):
         observer = Observer()
         observer.schedule(handler, self.incoming_path, recursive=True)
 
-        # If there are any videos already in the incoming path, add them to the queue.
+        # If there are any videos already in the incoming path, add them to
+        # the queue.
         self._add_existing_videos()
 
         # Start to watch for new videos

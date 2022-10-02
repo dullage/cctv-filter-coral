@@ -4,11 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-deepstack-sdk = "*"
 opencv-python = "*"
 watchdog = "*"
 shapely = "*"
-requests = "*"
 
 [dev-packages]
 black = "*"

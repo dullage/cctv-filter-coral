@@ -18,7 +18,7 @@ class ReolinkCamera:
         logging.info(
             ", ".join(
                 [
-                    f"Initalised Camera \"{name}\"",
+                    f'Initalised Camera "{name}"',
                     f"Minimum Confidence = {min_confidence}",
                     f"ROI = {roi}",
                 ]

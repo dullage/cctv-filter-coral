@@ -13,7 +13,6 @@ logging.basicConfig(
 )
 
 if __name__ == "__main__":
-    DEEPSTACK_URL = os.environ["DEEPSTACK_URL"]
     INCOMING_DIR_PATH = os.environ["INCOMING_DIR_PATH"]
     ACCEPTED_DIR_PATH = os.environ["ACCEPTED_DIR_PATH"]
     LATEST_DETECTION_PATH = os.environ["LATEST_DETECTION_PATH"]
@@ -41,7 +40,6 @@ if __name__ == "__main__":
 
     cctv_filter = CCTVFilter(
         cameras,
-        DEEPSTACK_URL,
         INCOMING_DIR_PATH,
         ACCEPTED_DIR_PATH,
         LATEST_DETECTION_PATH,
