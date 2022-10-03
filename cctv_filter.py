@@ -110,6 +110,7 @@ class CCTVFilter(FileSystemEventHandler):
     def _loop(self):
         while True:
             if len(self.queue) > 0:
+                logging.info(f"Queue Depth: {len(self.queue)}")
                 self._process_video(*self.queue.pop(0))
             else:
                 time.sleep(1)
