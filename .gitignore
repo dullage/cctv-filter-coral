@@ -139,5 +139,4 @@ cython_debug/
 
 # Custom
 .vscode/
-test/
-ad-hoc/
+dev/
